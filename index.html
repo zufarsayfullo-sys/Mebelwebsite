@@ -363,14 +363,26 @@ footer{background:var(--g1);padding:28px 20px;text-align:center;border-top:1px s
 </footer>
 
 <script>
-function submit(){
-  const v=document.getElementById('lf-num').value.trim();
-  if(v.length<9){document.getElementById('lf-num').style.borderColor='rgba(255,100,100,0.4)';return;}
+async function submit(){
+  const input=document.getElementById('lf-num');
+  const v=input.value.trim();
+  if(v.length<9){input.style.borderColor='rgba(255,100,100,0.4)';return;}
+  input.style.borderColor='';
+  try{
+    await fetch('https://api.telegram.org/bot8771461180:AAH8fkkbm52fNzsIUMj5PM6aUd_K8JlFQYY/sendMessage',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        chat_id:'-1003760839356',
+        text:'📞 Yangi buyurtma!\n\nRaqam: '+v+'\n\n🌐 UstaCraft saytidan',
+        parse_mode:'HTML'
+      })
+    });
+  }catch(e){console.log(e);}
   const t=document.getElementById('toast');
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3200);
-  document.getElementById('lf-num').value='';
-  document.getElementById('lf-num').style.borderColor='';
+  input.value='';
 }
 document.getElementById('lf-num').addEventListener('input',function(){
   this.style.borderColor='';
@@ -600,17 +612,26 @@ function closeModal(){
 function handleOverlayClick(e){
   if(e.target===document.getElementById('modal')) closeModal();
 }
-function submitModal(){
-  const v=document.getElementById('modal-num').value.trim();
-  if(v.length<9){
-    document.getElementById('modal-num').style.borderColor='rgba(255,100,100,0.5)';
-    return;
-  }
+async function submitModal(){
+  const input=document.getElementById('modal-num');
+  const v=input.value.trim();
+  if(v.length<9){input.style.borderColor='rgba(255,100,100,0.5)';return;}
+  try{
+    await fetch('https://api.telegram.org/bot8771461180:AAH8fkkbm52fNzsIUMj5PM6aUd_K8JlFQYY/sendMessage',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        chat_id:'-1003760839356',
+        text:'📞 Yangi buyurtma!\n\nRaqam: '+v+'\n\n🌐 UstaCraft saytidan',
+        parse_mode:'HTML'
+      })
+    });
+  }catch(e){console.log(e);}
   closeModal();
   const t=document.getElementById('toast');
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3200);
-  document.getElementById('modal-num').value='';
+  input.value='';
 }
 document.getElementById('modal-num').addEventListener('input',function(){
   this.style.borderColor='';
